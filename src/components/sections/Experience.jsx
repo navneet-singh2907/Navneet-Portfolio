@@ -37,12 +37,23 @@ const EXPERIENCE = [
   {
     title:   'Masters of Computer Information Systems',
     company: 'Graduate Degree',
-    date:    '2024 – Present',
-    icon:    '🚀',
+    date:    '2024 – Dec 2025',
+    icon:    '🎓',
     type:    'education',
     points: [
       'Advancing expertise in information systems, data analysis, and modern enterprise technologies.',
       'Working on applied academic and industry-focused projects bridging AI and systems engineering.',
+    ],
+  },
+  {
+    title:   'Full Stack Developer',
+    company: 'Crayonex',
+    date:    'Feb 2026 – Present',
+    icon:    '💼',
+    type:    'work',
+    points: [
+      'Building and maintaining full-stack web applications across the entire development lifecycle.',
+      'Collaborating with cross-functional teams to deliver scalable, production-ready software.',
     ],
   },
 ]
