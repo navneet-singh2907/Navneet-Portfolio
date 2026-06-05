@@ -523,6 +523,11 @@ main {
 }
 .tool-form input::placeholder { color: var(--muted); }
 .tool-form input:focus { border-color: var(--purple); }
+.tool-error {
+  font-size: 0.82rem;
+  color: #ff6b6b;
+  padding: 0.4rem 0;
+}
 .qr-result {
   display: flex;
   flex-direction: column;

@@ -6,18 +6,15 @@ import { initComposer, resizeComposer } from './postprocessing/postprocessing.js
 import vertexShader   from './shaders/vertex.glsl?raw'
 import fragmentShader from './shaders/fragment.glsl?raw'
 
-// How long (seconds) to hold at morph=1 before reversing, per sequence index
-// seq 0 = "Welcome to" — holds 1s so the user reads it, then "My Portfolio" joins
-const HOLD_DURATIONS = [1.0, 0, 0, 0, 0]
-
-// Reverse speed per sequence — seq 0→1 transition is fast so cloud flash is brief
-const REVERSE_SPEEDS = [0.018, 0.003, 0.003, 0.003, 0.003]
+const HOLD_DURATIONS  = [1.0, 0, 0, 0, 0]
+const REVERSE_SPEEDS  = [0.018, 0.003, 0.003, 0.003, 0.003]
 
 let renderer, composer, scene, camera, points, handleResize, animFrameId
 let seqIndex    = 0
 let morphDir    = 1
 let morphSpeed  = 0.003
-let holdEndTime = null       // clock seconds when hold expires (null = not holding)
+let holdEndTime = null
+let savedCanvas = null
 const clock     = new THREE.Clock()
 
 function swapToSequence(index) {
@@ -28,7 +25,7 @@ function swapToSequence(index) {
   )
 }
 
-export function init(canvas) {
+function buildScene() {
   const W = window.innerWidth
   const H = window.innerHeight
 
@@ -36,7 +33,7 @@ export function init(canvas) {
   camera = new THREE.PerspectiveCamera(60, W / H, 0.1, 100)
   camera.position.set(-4.5, 1, 8)
 
-  renderer = new THREE.WebGLRenderer({ canvas, antialias: false })
+  renderer = new THREE.WebGLRenderer({ canvas: savedCanvas, antialias: false })
   renderer.setSize(W, H)
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
   renderer.setClearColor(0x000000, 1)
@@ -62,6 +59,17 @@ export function init(canvas) {
 
   points = new THREE.Points(geometry, material)
   scene.add(points)
+}
+
+export function init(canvas) {
+  savedCanvas = canvas
+
+  const W = window.innerWidth
+  const H = window.innerHeight
+  canvas.width  = W
+  canvas.height = H
+
+  buildScene()
 
   handleResize = () => {
     const W = window.innerWidth, H = window.innerHeight
@@ -72,6 +80,17 @@ export function init(canvas) {
   }
   window.addEventListener('resize', handleResize)
 
+  // Recover gracefully if the GPU context is lost (driver reset, too many tabs, etc.)
+  canvas.addEventListener('webglcontextlost', e => {
+    e.preventDefault()           // allow the browser to restore the context
+    cancelAnimationFrame(animFrameId)
+  }, false)
+
+  canvas.addEventListener('webglcontextrestored', () => {
+    buildScene()                 // rebuild all GPU objects on the same canvas
+    tick()
+  }, false)
+
   tick()
 }
 
@@ -81,13 +100,11 @@ function tick() {
   uniforms.uTime.value = t
 
   if (holdEndTime !== null) {
-    // Holding at morph=1 — wait until hold duration expires
     if (t >= holdEndTime) {
       holdEndTime = null
       morphDir    = -1
       morphSpeed  = REVERSE_SPEEDS[seqIndex]
     }
-    // Don't advance morph progress during hold
   } else {
     uniforms.uMorphProgress.value += morphDir * morphSpeed
 
@@ -95,7 +112,7 @@ function tick() {
       uniforms.uMorphProgress.value = 1.0
       const hold = HOLD_DURATIONS[seqIndex] || 0
       if (hold > 0) {
-        holdEndTime = t + hold   // pause here
+        holdEndTime = t + hold
       } else {
         morphDir   = -1
         morphSpeed = REVERSE_SPEEDS[seqIndex]
@@ -111,14 +128,17 @@ function tick() {
   composer.render()
 }
 
-export function setMorphProgress(value) {
-  uniforms.uMorphProgress.value = THREE.MathUtils.clamp(value, 0, 1)
-}
-
 export function dispose() {
   cancelAnimationFrame(animFrameId)
   window.removeEventListener('resize', handleResize)
-  points.geometry.dispose()
-  points.material.dispose()
-  renderer.dispose()
+  if (points)    { points.geometry.dispose(); points.material.dispose() }
+  if (renderer)  renderer.dispose()
+
+  // Reset all module-level state so a React StrictMode remount starts clean
+  renderer = composer = scene = camera = points = handleResize = animFrameId = savedCanvas = null
+  seqIndex    = 0
+  morphDir    = 1
+  morphSpeed  = 0.003
+  holdEndTime = null
+  uniforms.uMorphProgress.value = 0.0
 }

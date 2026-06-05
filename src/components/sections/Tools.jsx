@@ -3,11 +3,20 @@ import React, { useState } from 'react'
 export default function Tools() {
   const [url, setUrl]     = useState('')
   const [qrSrc, setQrSrc] = useState(null)
+  const [error, setError] = useState(null)
 
   function generate(e) {
     e.preventDefault()
-    if (!url.trim()) return
-    setQrSrc(`https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=${encodeURIComponent(url.trim())}`)
+    const trimmed = url.trim()
+    if (!trimmed) return
+    // Block non-http(s) schemes (javascript:, data:, etc.) before passing to external API
+    if (!/^https?:\/\//i.test(trimmed)) {
+      setQrSrc(null)
+      setError('Please enter a URL starting with https:// or http://')
+      return
+    }
+    setError(null)
+    setQrSrc(`https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=${encodeURIComponent(trimmed)}`)
   }
 
   return (
@@ -33,6 +42,7 @@ export default function Tools() {
             />
             <button type="submit" className="btn-primary">Generate QR Code</button>
           </form>
+          {error && <p className="tool-error">{error}</p>}
           {qrSrc && (
             <div className="qr-result">
               <img src={qrSrc} alt="QR code" />
