@@ -1,42 +1,58 @@
 import * as THREE from 'three'
 import { createParticleGeometry } from './geometry/createParticleGeometry.js'
+import { uniforms } from './uniforms/uniforms.js'
+import vertexShader   from './shaders/vertex.glsl?raw'
+import fragmentShader from './shaders/fragment.glsl?raw'
 
-let renderer, scene, camera, points, animFrameId
+let renderer, scene, camera, points, animFrameId, handleResize
+const clock = new THREE.Clock()
 
 export function init(canvas) {
-  scene = new THREE.Scene()
+  const W = window.innerWidth
+  const H = window.innerHeight
 
-  camera = new THREE.PerspectiveCamera(60, canvas.clientWidth / canvas.clientHeight, 0.1, 100)
+  scene  = new THREE.Scene()
+
+  camera = new THREE.PerspectiveCamera(60, W / H, 0.1, 100)
   camera.position.z = 6
 
-  renderer = new THREE.WebGLRenderer({ canvas, antialias: false, alpha: true })
-  renderer.setSize(canvas.clientWidth, canvas.clientHeight)
+  renderer = new THREE.WebGLRenderer({ canvas, antialias: false })
+  renderer.setSize(W, H)
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
+  renderer.setClearColor(0x000000, 1)
 
   const geometry = createParticleGeometry()
-  const material = new THREE.PointsMaterial({ color: 0x00ffff, size: 0.02, sizeAttenuation: true })
+  const material  = new THREE.ShaderMaterial({
+    vertexShader,
+    fragmentShader,
+    uniforms,
+    transparent: true,
+    depthWrite:  false,
+  })
+
   points = new THREE.Points(geometry, material)
   scene.add(points)
 
-  window.addEventListener('resize', () => onResize(canvas))
+  // Store named reference so removeEventListener can match it exactly
+  handleResize = () => {
+    camera.aspect = window.innerWidth / window.innerHeight
+    camera.updateProjectionMatrix()
+    renderer.setSize(window.innerWidth, window.innerHeight)
+  }
+  window.addEventListener('resize', handleResize)
 
   tick()
 }
 
 function tick() {
   animFrameId = requestAnimationFrame(tick)
+  uniforms.uTime.value = clock.getElapsedTime()
   renderer.render(scene, camera)
-}
-
-function onResize(canvas) {
-  camera.aspect = canvas.clientWidth / canvas.clientHeight
-  camera.updateProjectionMatrix()
-  renderer.setSize(canvas.clientWidth, canvas.clientHeight)
 }
 
 export function dispose() {
   cancelAnimationFrame(animFrameId)
-  window.removeEventListener('resize', onResize)
+  window.removeEventListener('resize', handleResize)
   points.geometry.dispose()
   points.material.dispose()
   renderer.dispose()

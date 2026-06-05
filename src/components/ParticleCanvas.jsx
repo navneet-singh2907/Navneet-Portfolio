@@ -5,7 +5,10 @@ export default function ParticleCanvas() {
   const canvasRef = useRef(null)
 
   useEffect(() => {
-    init(canvasRef.current)
+    const canvas = canvasRef.current
+    canvas.width  = window.innerWidth
+    canvas.height = window.innerHeight
+    init(canvas)
     return () => dispose()
   }, [])
 
