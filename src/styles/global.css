@@ -693,8 +693,7 @@ main {
   /* Hero */
   .hero { padding: 0 1.5rem; padding-top: 80px; }
   .hero-cta { flex-direction: column; align-items: flex-start; }
-  .hero-cta .btn-primary,
-  .hero-cta .btn-outline { width: 100%; text-align: center; }
+  .hero-scroll { display: none; }
 
   /* Sections */
   .page-section { padding: 4rem 1.5rem; }
