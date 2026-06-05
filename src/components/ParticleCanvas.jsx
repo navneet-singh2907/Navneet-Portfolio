@@ -15,7 +15,13 @@ export default function ParticleCanvas() {
   return (
     <canvas
       ref={canvasRef}
-      style={{ display: 'block', width: '100vw', height: '100vh' }}
+      style={{
+        position: 'fixed',
+        top: 0, left: 0,
+        width: '100vw', height: '100vh',
+        zIndex: 0,
+        pointerEvents: 'none',
+      }}
     />
   )
 }
