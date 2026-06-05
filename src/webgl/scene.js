@@ -1,7 +1,8 @@
 import * as THREE from 'three'
-import { createParticleGeometry } from './geometry/createParticleGeometry.js'
-import { SEQUENCE_POSITIONS } from './geometry/textPositions.js'
-import { uniforms } from './uniforms/uniforms.js'
+import { createParticleGeometry }       from './geometry/createParticleGeometry.js'
+import { SEQUENCE_POSITIONS }           from './geometry/textPositions.js'
+import { uniforms }                     from './uniforms/uniforms.js'
+import { initComposer, resizeComposer } from './postprocessing/postprocessing.js'
 import vertexShader   from './shaders/vertex.glsl?raw'
 import fragmentShader from './shaders/fragment.glsl?raw'
 
@@ -12,7 +13,7 @@ const HOLD_DURATIONS = [1.0, 0, 0, 0, 0]
 // Reverse speed per sequence — seq 0→1 transition is fast so cloud flash is brief
 const REVERSE_SPEEDS = [0.018, 0.003, 0.003, 0.003, 0.003]
 
-let renderer, scene, camera, points, handleResize, animFrameId
+let renderer, composer, scene, camera, points, handleResize, animFrameId
 let seqIndex    = 0
 let morphDir    = 1
 let morphSpeed  = 0.003
@@ -39,6 +40,10 @@ export function init(canvas) {
   renderer.setSize(W, H)
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
   renderer.setClearColor(0x000000, 1)
+  renderer.toneMapping         = THREE.ACESFilmicToneMapping
+  renderer.toneMappingExposure = 1.0
+
+  composer = initComposer(renderer, scene, camera)
 
   const geometry = createParticleGeometry()
   geometry.setAttribute(
@@ -52,15 +57,18 @@ export function init(canvas) {
     uniforms,
     transparent: true,
     depthWrite:  false,
+    blending:    THREE.AdditiveBlending,
   })
 
   points = new THREE.Points(geometry, material)
   scene.add(points)
 
   handleResize = () => {
-    camera.aspect = window.innerWidth / window.innerHeight
+    const W = window.innerWidth, H = window.innerHeight
+    camera.aspect = W / H
     camera.updateProjectionMatrix()
-    renderer.setSize(window.innerWidth, window.innerHeight)
+    renderer.setSize(W, H)
+    resizeComposer(W, H)
   }
   window.addEventListener('resize', handleResize)
 
@@ -100,7 +108,7 @@ function tick() {
     }
   }
 
-  renderer.render(scene, camera)
+  composer.render()
 }
 
 export function setMorphProgress(value) {
