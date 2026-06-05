@@ -15,6 +15,17 @@ export default function Hero() {
         I architect agentic AI systems, GPU-accelerated interfaces,
         and full-stack applications that push what software can feel like.
       </p>
+      <div className="hero-cta">
+        <a href="/images/resume.pdf" download className="btn-primary">
+          📄 Download Resume
+        </a>
+        <a href="https://github.com/navneet-singh2907" target="_blank" rel="noreferrer" className="btn-outline">
+          GitHub
+        </a>
+        <a href="https://www.linkedin.com/in/navneet-singh2907/" target="_blank" rel="noreferrer" className="btn-outline">
+          LinkedIn
+        </a>
+      </div>
 
       <div className="hero-scroll" onClick={() => document.getElementById('about').scrollIntoView({ behavior: 'smooth' })}>
         <div className="scroll-mouse">

@@ -12,13 +12,14 @@ export default function Navbar() {
   return (
     <nav className={`navbar${scrolled ? ' scrolled' : ''}`}>
       <div className="nav-brand">
-        <div className="nav-avatar-placeholder">NS</div>
+        <img src="/images/profile.png" alt="Navneet Singh" className="nav-avatar" />
         <span>Navneet Singh</span>
       </div>
       <ul className="nav-links">
         <li><a href="#about">About</a></li>
         <li><a href="#experience">Work</a></li>
         <li><a href="#projects">Projects</a></li>
+        <li><a href="#certifications">Certifications</a></li>
         <li><a href="#contact">Contact</a></li>
       </ul>
     </nav>

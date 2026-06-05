@@ -13,7 +13,7 @@ export function initComposer(renderer, scene, camera) {
   composer = new EffectComposer(renderer)
   composer.addPass(new RenderPass(scene, camera))
 
-  const bloom = new UnrealBloomPass(new THREE.Vector2(W, H), 1.4, 0.6, 0.0)
+  const bloom = new UnrealBloomPass(new THREE.Vector2(W, H), 0.4, 0.4, 0.1)
   composer.addPass(bloom)
 
   composer.addPass(new OutputPass())

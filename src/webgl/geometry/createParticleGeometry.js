@@ -7,9 +7,9 @@ export function createParticleGeometry() {
 
   for (let i = 0; i < PARTICLE_COUNT; i++) {
     const i3 = i * 3
-    positions[i3]     = (Math.random() - 0.5) * 10
-    positions[i3 + 1] = (Math.random() - 0.5) * 10
-    positions[i3 + 2] = (Math.random() - 0.5) * 10
+    positions[i3]     = (Math.random() - 0.5) * 40
+    positions[i3 + 1] = (Math.random() - 0.5) * 22
+    positions[i3 + 2] = (Math.random() - 0.5) * 8
   }
 
   const geometry = new THREE.BufferGeometry()

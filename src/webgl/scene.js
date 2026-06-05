@@ -34,7 +34,7 @@ export function init(canvas) {
 
   scene  = new THREE.Scene()
   camera = new THREE.PerspectiveCamera(60, W / H, 0.1, 100)
-  camera.position.z = 8
+  camera.position.set(-4.5, 1, 8)
 
   renderer = new THREE.WebGLRenderer({ canvas, antialias: false })
   renderer.setSize(W, H)
