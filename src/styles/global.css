@@ -235,6 +235,7 @@ main {
   align-items: flex-start;
   gap: 2rem;
   width: 100%;
+  position: relative;
 }
 .timeline-item.right { flex-direction: row-reverse; }
 .timeline-card {
@@ -685,10 +686,13 @@ main {
 /* ════════════════════════════════════════
    RESPONSIVE — mobile (≤768px)
    ════════════════════════════════════════ */
-@media (max-width: 768px) {
-  /* Navbar */
+@media (max-width: 1024px) {
+  /* Navbar — too many links to fit below 1024px */
   .nav-links  { display: none; }
   .nav-burger { display: flex; }
+}
+
+@media (max-width: 768px) {
 
   /* Hero */
   .hero { padding: 0 1.5rem; padding-top: 80px; }

@@ -46,6 +46,13 @@ export function textPositions(lines) {
   const positions = new Float32Array(PARTICLE_COUNT * 3)
   const total = litPixels.length / 2
 
+  // Guard: if canvas produced no lit pixels fall back to a random scatter
+  // so the GPU buffer never receives NaN values
+  if (total === 0) {
+    for (let i = 0; i < PARTICLE_COUNT * 3; i++) positions[i] = (Math.random() - 0.5) * 9
+    return positions
+  }
+
   for (let i = 0; i < PARTICLE_COUNT; i++) {
     const pick = Math.floor(Math.random() * total) * 2
     const i3   = i * 3
