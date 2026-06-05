@@ -20,6 +20,8 @@ export default function Navbar() {
         <li><a href="#experience">Work</a></li>
         <li><a href="#projects">Projects</a></li>
         <li><a href="#certifications">Certifications</a></li>
+        <li><a href="#tools">Tools</a></li>
+        <li><a href="#blogs">Blogs</a></li>
         <li><a href="#contact">Contact</a></li>
       </ul>
     </nav>
