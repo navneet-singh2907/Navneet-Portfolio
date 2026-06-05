@@ -1,5 +1,8 @@
 uniform float uTime;
 uniform float uSize;
+uniform float uMorphProgress;
+
+attribute vec3 aTargetPosition;
 
 // --- Ashima 3D Simplex Noise ---
 vec3 mod289v3(vec3 x) { return x - floor(x * (1.0 / 289.0)) * 289.0; }
@@ -66,16 +69,20 @@ float snoise(vec3 v) {
 // --- End Simplex Noise ---
 
 void main() {
-  vec3 pos = position;
+  // Ease the morph progress so it accelerates in and decelerates out
+  float eased = smoothstep(0.0, 1.0, uMorphProgress);
 
-  // Three independent noise samples — one per axis so drift is truly 3D
+  // Lerp each particle from its random base position to the target shape
+  vec3 pos = mix(position, aTargetPosition, eased);
+
+  // Apply noise drift — scale down during morph so shape stays legible
+  float driftScale = 1.0 - eased * 0.7;
   float t = uTime * 0.12;
-  pos.x += snoise(pos * 0.4 + t)               * 0.18;
-  pos.y += snoise(pos * 0.4 + t + vec3(31.41)) * 0.18;
-  pos.z += snoise(pos * 0.4 + t + vec3(17.29)) * 0.18;
+  pos.x += snoise(pos * 0.4 + t)               * 0.18 * driftScale;
+  pos.y += snoise(pos * 0.4 + t + vec3(31.41)) * 0.18 * driftScale;
+  pos.z += snoise(pos * 0.4 + t + vec3(17.29)) * 0.18 * driftScale;
 
   vec4 mvPosition = modelViewMatrix * vec4(pos, 1.0);
-
   gl_PointSize = uSize;
   gl_Position  = projectionMatrix * mvPosition;
 }
