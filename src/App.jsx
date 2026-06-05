@@ -1,9 +1,6 @@
 import React from 'react'
+import ParticleCanvas from './components/ParticleCanvas.jsx'
 
 export default function App() {
-  return (
-    <div style={{ color: '#fff', fontFamily: 'monospace', padding: '2rem' }}>
-      Navneet Portfolio — WebGL particle system loading...
-    </div>
-  )
+  return <ParticleCanvas />
 }
