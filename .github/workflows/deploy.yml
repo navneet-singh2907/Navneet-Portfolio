@@ -9,6 +9,7 @@ jobs:
   web-deploy:
     name: Production Deploy
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     
     steps:
     - name: 🚚 Get latest code
@@ -36,3 +37,4 @@ jobs:
         server-dir: /domains/navneetdatax.com/public_html/
         protocol: ftps
         port: 21
+        timeout-minutes: 5
