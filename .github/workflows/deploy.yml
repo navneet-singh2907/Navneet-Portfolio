@@ -33,6 +33,6 @@ jobs:
         username: ${{ secrets.FTP_USERNAME }}
         password: ${{ secrets.FTP_PASSWORD }}
         local-dir: ./dist/
-        server-dir: /public_html/
+        server-dir: /public_html/ # Adjust this path if your hosting provider uses a different directory for web files
         protocol: ftps
         port: 21
