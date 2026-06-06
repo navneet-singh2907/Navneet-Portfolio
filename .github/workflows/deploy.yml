@@ -29,8 +29,11 @@ jobs:
     - name: 🚀 Sync Files to Hostinger via FTP
       uses: SamKirkland/FTP-Deploy-Action@v4.3.5
       with:
-        server: ${{ secrets.FTP_SERVER }}
-        username: ${{ secrets.FTP_USERNAME }}
-        password: ${{ secrets.FTP_PASSWORD }}
-        local-dir: ./dist/          # It takes the compiled files from here...
-        server-dir: ./public_html/  # ...and puts them straight into your live root folder!
+        - name: 🚀 Sync Files to Hostinger via FTP
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          local-dir: ./dist/
+          server-dir: ./     
