@@ -3,10 +3,6 @@ import React from 'react'
 export default function Hero() {
   return (
     <section className="hero">
-      <div className="hero-line" />
-      <div className="hero-eyebrow">
-        <div className="hero-dot" />
-      </div>
       <h1 className="hero-title">
         Hi, I'm <span>Navneet</span><br />
         <span>Singh</span>
