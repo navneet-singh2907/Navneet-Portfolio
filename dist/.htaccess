@@ -1,0 +1,42 @@
+# ── Security headers ──────────────────────────────────────────────────────────
+<IfModule mod_headers.c>
+    # Prevent MIME-type sniffing
+    Header always set X-Content-Type-Options "nosniff"
+    # Block site from being embedded in iframes (clickjacking)
+    Header always set X-Frame-Options "SAMEORIGIN"
+    # Force HTTPS for 1 year once visited
+    Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains"
+    # Limit referrer info sent to external sites
+    Header always set Referrer-Policy "strict-origin-when-cross-origin"
+    # Disable access to camera/mic/geolocation
+    Header always set Permissions-Policy "camera=(), microphone=(), geolocation=()"
+    # Content Security Policy
+    Header always set Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://upload.wikimedia.org https://api.qrserver.com; connect-src 'self' https://formspree.io; frame-ancestors 'none';"
+</IfModule>
+
+# ── Static asset caching ───────────────────────────────────────────────────────
+<IfModule mod_expires.c>
+    ExpiresActive On
+    # Hashed JS/CSS bundles — safe to cache forever (new hash on each build)
+    ExpiresByType application/javascript "access plus 1 year"
+    ExpiresByType text/css               "access plus 1 year"
+    # Images and fonts
+    ExpiresByType image/png              "access plus 1 year"
+    ExpiresByType image/jpeg             "access plus 1 year"
+    ExpiresByType image/webp             "access plus 1 year"
+    ExpiresByType image/svg+xml          "access plus 1 year"
+    ExpiresByType font/woff2             "access plus 1 year"
+    # PDF resume
+    ExpiresByType application/pdf        "access plus 1 month"
+    # HTML — always revalidate so new deploys are picked up immediately
+    ExpiresByType text/html              "access plus 0 seconds"
+</IfModule>
+
+# ── Compression ────────────────────────────────────────────────────────────────
+<IfModule mod_deflate.c>
+    AddOutputFilterByType DEFLATE text/html text/css application/javascript
+    AddOutputFilterByType DEFLATE image/svg+xml application/json
+</IfModule>
+
+# ── Hide server info ───────────────────────────────────────────────────────────
+ServerSignature Off
