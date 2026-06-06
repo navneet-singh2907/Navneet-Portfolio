@@ -24,10 +24,10 @@ export default function Navbar() {
 
   return (
     <nav className={`navbar${scrolled ? ' scrolled' : ''}`}>
-      <div className="nav-brand">
+      <a className="nav-brand" href="#" onClick={e => { e.preventDefault(); window.scrollTo({ top: 0, behavior: 'smooth' }) }}>
         <img src="/images/profile.png" alt="Navneet Singh" className="nav-avatar" />
         <span>Navneet Singh</span>
-      </div>
+      </a>
 
       {/* desktop links */}
       <ul className="nav-links">
