@@ -31,6 +31,16 @@ const PROJECTS = [
   },
   {
     img:   null,
+    gradient: 'linear-gradient(135deg, #1a0a00, #3d1a00, #5c2d00)',
+    icon:  '🔧',
+    title: 'OBD2 Engine Diagnostics Telemetry Lab',
+    desc:  'Automotive telemetry dashboard that reads OBD2 logs and auto-diagnoses engine health — fuel trim breach detection, RPM scatter by load zone, dual O₂ waveform comparison, and live NHTSA recall/complaint lookup. No API key required.',
+    tags:  ['Python', 'Streamlit', 'Pandas', 'NHTSA API', 'Data Visualisation'],
+    demo:  'https://engine-diagnostics-dashboard-nsingh.streamlit.app',
+    code:  'https://github.com/navneet-singh2907/engine-diagnostics-dashboard',
+  },
+  {
+    img:   null,
     gradient: 'linear-gradient(135deg, #0a1628, #1a3a5c, #2d1b69)',
     icon:  '🎓',
     title: 'RAG-Based AI Teaching Assistant',
