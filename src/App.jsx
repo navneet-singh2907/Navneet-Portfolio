@@ -4,7 +4,8 @@ import Navbar             from './components/Navbar.jsx'
 import Hero               from './components/sections/Hero.jsx'
 import About              from './components/sections/About.jsx'
 import Experience         from './components/sections/Experience.jsx'
-import Projects           from './components/sections/Projects.jsx'
+import Projects           from './components/sections/ProjectsStack.jsx'
+import OpenSource         from './components/sections/OpenSource.jsx'
 import Certifications     from './components/sections/Certifications.jsx'
 import Tools              from './components/sections/Tools.jsx'
 import Blogs              from './components/sections/Blogs.jsx'
@@ -23,6 +24,7 @@ export default function App() {
         <About />
         <Experience />
         <Projects />
+        <OpenSource />
         <Certifications />
         <Tools />
         <Blogs />

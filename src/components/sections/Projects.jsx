@@ -49,15 +49,6 @@ const PROJECTS = [
     demo:  null,
     code:  'https://github.com/navneet-singh2907/RAG-AI-Assistance',
   },
-  {
-    type:  'contribution',
-    title: 'OpenHuman — Korean locale (i18n)',
-    desc:  'Added Korean language support to OpenHuman, a privacy-first agentic AI desktop app with 118+ integrations. Contributed i18n translations and a README spelling fix — part of an active early-beta project trending on GitHub.',
-    tags:  ['i18n', 'TypeScript', 'Rust', 'open source', 'agentic AI'],
-    repo:  'tinyhumansai/openhuman',
-    code:  'https://github.com/tinyhumansai/openhuman',
-    date:  'June 2026',
-  },
 ]
 
 export default function Projects() {
