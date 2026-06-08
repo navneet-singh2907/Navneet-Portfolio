@@ -37,7 +37,7 @@ const PROJECTS = [
     desc:  'Fully local RAG pipeline that searches 2000+ course-video transcript embeddings and returns the exact video name, timestamp, and an AI-generated explanation — zero cloud dependency.',
     tags:  ['Python', 'Whisper', 'Ollama', 'Streamlit', 'NumPy', 'scikit-learn'],
     demo:  null,
-    code:  null,
+    code:  'https://github.com/navneet-singh2907/RAG-AI-Assistance',
   },
 ]
 
