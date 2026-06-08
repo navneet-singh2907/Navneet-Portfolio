@@ -321,6 +321,59 @@ main {
   border: 1px solid var(--border);
 }
 
+/* ── Open-source contribution card ─── */
+.project-contribution {
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+.contrib-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.28rem 0.75rem;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  font-size: 0.72rem;
+  color: var(--muted);
+  width: fit-content;
+}
+.contrib-title {
+  font-size: 1.05rem;
+  font-weight: 700;
+  margin: 0;
+}
+.contrib-desc {
+  font-size: 0.82rem;
+  color: var(--muted);
+  line-height: 1.6;
+  margin: 0;
+}
+.contrib-divider {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: 0.1rem 0;
+}
+.contrib-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.contrib-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.8rem;
+  color: var(--purple);
+  text-decoration: none;
+}
+.contrib-link:hover { text-decoration: underline; }
+.contrib-date {
+  font-size: 0.8rem;
+  color: var(--muted);
+}
+
 /* ── Contact ────────────────────────── */
 .contact-layout {
   display: grid;
